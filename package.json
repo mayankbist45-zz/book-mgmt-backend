@@ -8,18 +8,19 @@
     "start": "node index.js"
   },
   "engines": {
-    "node": "14.18.0"
+    "node": "10.19.0"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "compression": "^1.7.4",
+    "config": "^3.3.3",
     "cors": "^2.8.5",
+    "debug": "^4.3.1",
     "express": "^4.17.1",
-    "helmet": "^4.6.0",
-    "mongoose": "^6.0.9"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.13"
+    "helmet": "^4.4.1",
+    "mongoose": "^5.11.18",
+    "morgan": "^1.10.0"
   }
 }
