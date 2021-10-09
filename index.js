@@ -41,6 +41,28 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cors());
 
+const processToRules = (response, title, authorName, startP, startE) => {
+    const updatedBooks = [];
+    response.forEach((book) => {
+        if (title === '' || book.title.toUpperCase() === title.toUpperCase()) {
+            if (authorName === '' || book.author.toUpperCase() === authorName.toUpperCase()) {
+                if (startP <= book.yop) {
+                    if (startE >= book.yop) {
+                        updatedBooks.push(book);
+                    }
+                }
+            }
+        }
+    });
+    return updatedBooks;
+}
+
+app.get("/books/search", async (req, res) => {
+    const books = await getAllBooks();
+    res.send(processToRules(books, req.query.title, req.query.authorName, req.query.startP, req.query.startE));
+});
+
+
 app.post("/books", async (req, res) => {
     await addData(req.body);
     res.send(await getAllBooks());
