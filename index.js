@@ -72,6 +72,33 @@ app.get("/books", async (req, res) => {
     res.send(await getAllBooks());
 });
 
+app.put("/books/increaseBookCopies", async (req, res) => {
+    const bookId = req.query.id;
+    let book = await Book.findById(bookId);
+    book.availableCopies++;
+    await Book.findByIdAndUpdate(bookId, book);
+    res.sendStatus(200);
+});
+
+app.put("/books/decreaseBookCopies", async (req, res) => {
+    const bookId = req.query.id;
+    let book = await Book.findById(bookId);
+    book.availableCopies--;
+    if (book.availableCopies) await Book.findByIdAndUpdate(bookId, book);
+    else await Book.findByIdAndDelete(bookId);
+    res.sendStatus(200);
+});
+
+app.put("/books/issueBook", async (req, res) => {
+    const bookId = req.query.id;
+    let book = await Book.findById(bookId);
+    book.availableCopies--;
+    book.timesBought++;
+    if (book.availableCopies) await Book.findByIdAndUpdate(bookId, book);
+    else await Book.findByIdAndDelete(bookId);
+    res.sendStatus(200);
+});
+
 app.post("/books", async (req, res) => {
     await addData(req.body);
     res.send(await getAllBooks());
