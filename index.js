@@ -62,13 +62,18 @@ app.get("/books/search", async (req, res) => {
     res.send(processToRules(books, req.query.title, req.query.authorName, req.query.startP, req.query.startE));
 });
 
-
-app.post("/books", async (req, res) => {
-    await addData(req.body);
-    res.send(await getAllBooks());
+app.get("/books/recommendations", async (req, res) => {
+    let books = await getAllBooks();
+    books.sort((a, b) => b.timesBought - a.timesBought);
+    res.send(books.slice(0, 4));
 });
 
 app.get("/books", async (req, res) => {
+    res.send(await getAllBooks());
+});
+
+app.post("/books", async (req, res) => {
+    await addData(req.body);
     res.send(await getAllBooks());
 });
 
