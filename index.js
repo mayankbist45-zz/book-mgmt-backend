@@ -41,9 +41,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cors());
 
-const processToRules = (response, title, authorName, startP, startE) => {
+const processToRules = (books, title, authorName, startP, startE) => {
     const updatedBooks = [];
-    response.forEach((book) => {
+    books.forEach((book) => {
         if (title === '' || book.title.toUpperCase() === title.toUpperCase()) {
             if (authorName === '' || book.author.toUpperCase() === authorName.toUpperCase()) {
                 if (startP <= book.yop) {
@@ -78,7 +78,6 @@ app.delete("/books/:id", async (req, res) => {
 });
 
 app.put("/books/:id", async (req, res) => {
-    console.log(req.body);
     await Book.findByIdAndUpdate(req.params.id, req.body);
     res.send(await getAllBooks());
 })
